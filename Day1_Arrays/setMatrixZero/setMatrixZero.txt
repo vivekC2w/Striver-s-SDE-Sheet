@@ -1,0 +1,243 @@
+You will be given n x m matrix. 
+The matrix only have 0's and 1's that means its a binary matrix. Our task is to find 0's.
+And mark every one as zero.
+Input: matrix = 
+[   [0,1,2,0],
+    [3,4,5,2],
+    [1,3,1,5]
+]
+
+Output: 
+[
+    [0,0,0,0],
+    [0,4,5,0],
+    [0,3,1,0]
+]
+=====================================================================================
+
+Brute Force Solution => 
+If there's is zero go across entire column and mark everything as 0 and go across entire row
+mark everything as 0. 
+1   1   1   1
+1   0   0   1
+1   1   0   1
+1   1   1   1
+Given n x m matrix. We will try to iterate on it. If I find zero I'll mark everyone from that
+particular column and row "-1".I'll make sure that I won't mark 0's as -1.
+first 0 at matrix[1][1]
+ 1   -1   1   1
+-1    0   0  -1
+ 1   -1   0   1
+ 1   -1   1   1
+
+Second 0 at matrix[1][2]
+ 1   -1  -1   1
+-1    0   0  -1
+ 1   -1   0   1
+ 1   -1  -1   1
+
+Third 0 at matrix[1][3]
+ 1   -1  -1   1
+-1    0   0  -1
+-1   -1   0  -1
+ 1   -1  -1   1
+
+One more iteration we will done to convert -1's to 0.
+1  0  0  1
+0  0  0  0
+0  0  0  0
+1  0  0  1
+
+//Brute Force Approach
+
+//Traverse the rows
+for(int i = 0; i < n; i++) {
+    //Traverse the columns
+    for(int j = 0; j < m; j++) {        //Time complexity due to 2 for loops (m x n)
+        if(arr[i][j] == 0) {
+            markRow(i);                 //Time complexity will be O(m)
+            markCol(j);                 //Time complexity will be O(n)
+        }
+    }
+}
+
+markRow(i) {
+    for(int j = 0; j < m; j++) {
+        if(arr[i][j] != 0) {
+            arr[i][j] = -1;
+        }
+    }
+}
+
+markCol(j) {
+    for(int i = 0; i < n; i++) { 
+        if(arr[i][j] != 0) {
+            arr[i][j] = -1;
+        }
+    }
+}
+
+//Turn all -1's to 0's
+for(i=0 --> n) {
+    for(j=0 --> m) {        //Time Complexity due to this nested loops (n x m)
+        if(arr[i][j] == -1)
+            arr[i][j] = 0;
+    }
+}
+
+//Total Time complexity will be => (n x m) x (n + m) + (n x m)
+//Time complexity will be somewere near about the power of cube 
+
+===================================================================================
+
+2. Better Solution 
+SO here we need to eliminate makeRow -1 and makeCol -1 iterartions.
+For every 1 in 2D matrix we will check if atleast one 0 in row or atleast one 0 in that respective
+column. Then we will make that particular row or column.   To mark this we should have 4 size
+column array which will keep a track if the column is marked and there will be 4 size row array
+which will keep a track if the row is marked.
+
+row arr>0   0   0   0  (Intialyy all set to 0)
+col arr
+    
+   0     1   1   1   1
+   0     1   0   1   1
+   0     1   1   0   1
+   0     1   0   0   1
+
+1. first 0 at matrix[1][1]
+mark row and col index as 1
+
+row arr> 0   1   0   0  
+col arr
+    
+   0     1   1   1   1
+   1     1   0   1   1
+   0     1   1   0   1
+   0     1   0   0   1
+
+2. second 0 at matrix[2][2]
+mark row and col index as 1
+
+row arr> 0   1   1   0  
+col arr
+    
+   0     1   1   1   1
+   1     1   0   1   1
+   1     1   1   0   1
+   0     1   0   0   1
+
+3. third 0 at matrix[3][1]
+mark row and col index as 1
+
+row arr> 0   1   1   0  
+col arr
+    
+   0     1   1   1   1
+   1     1   0   1   1
+   1     1   1   0   1
+   1     1   0   0   1
+
+4. fourth 0 at matrix[3][2]
+mark row and col index as 1
+
+row arr> 0   1   1   0  
+col arr
+    
+   0     1   1   1   1
+   1     1   0   1   1
+   1     1   1   0   1
+   1     1   0   0   1
+
+Then finally we iterate through entire matrix and check if for that particular index we have
+marked 1 in row arr or col arr or not and if it is marked as 1 then mark that element to zero.
+
+row arr> 0   1   1   0  
+col arr
+    
+   0     1   0   0   1
+   1     0   0   0   0
+   1     0   0   0   0
+   1     0   0   0   0
+
+code->
+//mark all as zero intitially
+row_arr[m] = {0}, col_arr[n] = {0}
+
+//starts iterating
+for(i = 0 --> n) {
+    for(j = 0 --> m) {
+        if(arr[i][j] = 0) {     //Time complexity will be O(m x n)
+            row_arr[i] = 1;
+            col_arr[j] = 1;
+        }
+    }
+}
+
+//Once you marked you again reiterate and this time you convert 1's to zero in orignal matrix
+for(i = 0 --> n) {
+    for(j = 0 --> m) {      //Time complexity will be O(m x n)
+        if(row_arr[i] == 1 || col_arr[j] == 1) {
+            arr[i][j] = 0;
+        }
+    }
+}
+
+Total Time complexity will be O(2 x m x n)
+Space Complexity O(n) + O(m)
+Using Extra Space
+
+===================================================================================
+
+3. optimal Solution
+Intially row arr at 0th row and col arr at 0th col
+        
+        col 
+        arr
+        \/
+row arr> 1   1   1   1
+         1   0   1   1
+         1   1   0   1
+         0   1   1   1
+
+int col0 = 1;
+//starts iterating
+for(i = 0 --> n) {
+    for(j = 0 --> m) {
+        if(arr[i][j] = 0) {     //Time complexity will be O(m x n)
+            //mark the ith row
+            matrix[i][0] = 0;
+            //mark the ith col
+            if(j != 0)
+                matrix[0][j] = 0;
+            else
+                col0 = 0;
+        }
+    }
+}
+
+for(int i = 1; i < n; i++) {
+    for(int j = 1; j < m; j++) {
+        if(matrix[i][j] != 0) {
+            //check for col & row
+            if(matrix[0][j] == 0 || matrix[i][0] == 0) {
+                matrix[i][j] != 0;
+            }
+        }
+    }
+}
+
+if(matrix[0][0] == 0) {
+    for(int j = 0; j < m; j++) matrix[0][j] = 0;
+}
+
+if(col0 == 0) {
+    for(int i = 0; i < n; i++) {
+        matrix[i][0] = 0;
+    }
+}
+
+return matrix;
+
+//Time Complexity => O(2 * m x n)
+//Space Complexity => O(1)
