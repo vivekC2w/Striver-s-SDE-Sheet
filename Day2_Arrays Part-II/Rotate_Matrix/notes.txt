@@ -1,0 +1,99 @@
+Rotate by 90
+matrix = 
+[   [1,2,3],
+    [4,5,6],
+    [7,8,9]
+]
+
+Output: 
+[   [7,4,1],
+    [8,5,2],
+    [9,6,3]
+]
+
+First Brute Force Solution:
+As we have given matrix of nxn. So we will create ans matrix of nxn to store the answer matrix.
+
+we will pick up elements one by one and try to place it to correct place.
+
+To place elements to its correct place
+As per the observaztion we can say that first row will become last column,
+second row will become second last column, like wise
+
+In order to map it in terms of indexes we will write indexes 
+      0 1 2             
+0    [1,2,3],
+1    [4,5,6],
+2    [7,8,9]
+
+      0 1 2
+0    [7,4,1],
+1    [8,5,2],
+2    [9,6,3]
+
+First Row:
+    i  j             j (n-1) - i
+arr[0][0] = rotate90[0][2]
+arr[0][1] = rotate90[1][2]
+arr[0][2] = rotate90[2][2]
+
+Second Row
+    i  j             j (n-1) - i
+arr[1][0] = rotate90[0][1]
+arr[1][1] = rotate90[1][1]
+arr[1][2] = rotate90[2][1]
+
+Third Row
+    i  j             j (n-1) - i
+arr[2][0] = rotate90[0][0]
+arr[2][1] = rotate90[1][0]
+arr[2][2] = rotate90[2][0]
+
+Code ->
+I'll Declare an nXn ans matrix
+arr[n][n];
+
+Then I'll start iterating from 0 to n
+for(i = 0 -> n) {
+    for(j = 0 -> n) {
+        ans[j][n-1-i] = matrix[i][j];
+    }
+}
+
+Time complexity -> O(n^2) 
+Space Complexity -> O(n^2)
+
+===================================================================
+Better Solution
+
+If we observere
+      0 1 2             
+0    [1,2,3],
+1    [4,5,6],
+2    [7,8,9]
+
+      0 1 2
+0    [7,4,1],
+1    [8,5,2],
+2    [9,6,3]
+
+First column of given matrix is in reverse order in first row of ans matrix.
+1    7 4 1
+4 
+7
+
+Second column of given matrix is in reverse order in Second row of ans matrix,Like wise..
+
+For that we need to take transpose of matrix 
+In Transpose column becomes row and row becomes column.
+For Transpose matrix diagonal will stay where ever they were.
+and swap the remaining elements
+swap(arr[i][j], arr[j][i])
+
+for(i=0 --> n-2) {
+    for(j=i+1 --> n-1) {
+        swap(arr[i][j], arr[j][i])
+    }
+}
+
+And after that we will reverse every row

@@ -1,0 +1,39 @@
+Best Time to Buy and Sell Stock
+
+prices = [7,1,5,3,6,4]
+
+Given an array of prices. It states if you sell or buy on any given day. It represents the 
+price of stock on that particular day.  
+
+prices = [7,1,5,3,6,4]
+Days =    1 2 3 4 5 6
+
+We have to find maximum profit. Buying has to be done before selling.
+
+If we are selling on ith day you can buy on the minimum price from 1st day to (i-1)th day,
+
+prices = [7,1,5,3,6,4]
+starting from 7
+I can not buy and sell on same day that does not make sense. 
+
+for 1, minimal from 1st day to (i-1) th day is 7
+profit = selling price - Buying Price = 1 - 7 = -6 
+profit will be negative
+
+for 5, minimal from 1st day to (i-1) th day is 1
+profit = selling price - Buying Price = 5 - 1 = 4 
+Update the maxProfit = 4
+
+for 3, minimal from 1st day to (i-1) th day is 1
+profit = selling price - Buying Price = 3 - 1 = 2 
+No nedd to Update the maxProfit
+maxProfit = 4
+
+for 6, minimal from 1st day to (i-1) th day is 1
+profit = selling price - Buying Price = 6 - 1 = 5 
+Update the maxProfit = 5
+
+for 4, minimal from 1st day to (i-1) th day is 1
+profit = selling price - Buying Price = 4 - 1 = 3 
+No nedd to Update the maxProfit
+maxProfit = 5

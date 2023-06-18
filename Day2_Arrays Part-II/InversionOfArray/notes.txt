@@ -1,0 +1,214 @@
+count Inversions
+
+arr[] = {5 3 2 4 1}
+i < j & a[i] > a[j]
+
+we have to find no of pairs and pairs should be order in such a way that left ele > right ele
+i < j & a[i] < a[j]
+
+[5 3 2 4 1]
+(5, 3) = 5 > 3 valid pair   (3, 2) = 3 > 2 valid pair   (2, 1) = 2 > 1 valid pair   (4, 1) = 4 > 1 valid pair
+(5, 2) = 5 > 2 valid pair   (3, 1) = 3 > 1 valid pair 
+(5, 4) = 5 > 4 valid pair
+(5, 1) = 5 > 1 valid pair
+
+Total number of pairs => 8 
+return 8
+
+============================================================
+BRUTE Force Solution
+
+iterate through 0 to n-1
+cnt = 0;
+for(i = 0 --> n-1) {
+    //as we know we have to check only right side of current ele
+    for(j = i+1 ---> n) {
+        if(a[i] > a[j]) {
+            cnt++;
+        }
+    }
+}
+return cnt;
+
+Time complexity => O(n^2)
+Space Complexity => constant space => O(1)
+
+========================================================================
+
+Optimal SOlution 
+
+Assume two sorted arrays are given i.e. a1[] = {2, 3, 5, 6} and a2[] = {2, 2, 4, 4, 8}. 
+Now, we have to count the pairs i.e. a1[i] and a2[j] such that a1[i] > a2[j].
+
+In order to solve this, we will keep two pointers i and j, where i will point to the first 
+index of a1[] and j will point to the first index of a2[]. 
+
+[2, 3, 5, 6]     [2, 2, 4, 4, 8]
+ |                |
+Here, a1[i] == a2[j], so we will move the i pointer to next position
+
+
+[2, 3, 5, 6]     [2, 2, 4, 4, 8]
+    |             |
+    i             j
+
+Why we moved the i pointer: We know, that the given arrays are sorted. So, all the elements 
+after the pointer j, should be greater than a2[j]. Now, as a1[i] is smaller or equal to a2[j], 
+it is obvious that a1[i] will be smaller or equal to all the elements after a2[j]. We need a 
+bigger value of a1[i] to make a pair and so we move the i pointer to the next position i.e. 
+next bigger value.
+
+Here, a1[i]> a2[j], and elements after a1[i] i.e. 5 and 6 is also greater than a2[j]. So, 
+the total number of pairs added to count will be n1-i = 4-1 = 3.
+Therefore, cnt = cnt +3
+Now, we will move the j pointer to the next position.
+
+[2, 3, 5, 6]     [2, 2, 4, 4, 8]
+    |                |
+    i                j
+Again, a1[i]> a2[j], and elements after a1[i] i.e. 5 and 6 is also greater than a2[j]. So, 
+the total number of pairs added to count will be n1-i = 4-1 = 3.
+Therefore, cnt = cnt +3
+Now, we will move the j pointer to the next position.
+
+[2, 3, 5, 6]     [2, 2, 4, 4, 8]
+    |                   |
+    i                   j
+
+Here, a1[i] < a2[j], so no need to do anything just move i pointer
+
+[2, 3, 5, 6]     [2, 2, 4, 4, 8]
+       |                |
+       i                j
+
+Here, a1[i] < a2[j], so I can say all the elements after 5 i.e.(a1[i]) are greater than 4 i.e.(a2[j]). so they can form
+pair with 4.
+Therefore, cnt = cnt + 2
+move j pointer
+
+[2, 3, 5, 6]     [2, 2, 4, 4, 8]
+       |                   |
+       i                   j
+
+Again same thing 
+cnt = cnt + 2
+Again move j pointer
+
+[2, 3, 5, 6]     [2, 2, 4, 4, 8]
+       |                      |
+       i                      j
+a1[i] < a2[j]
+move i pointer
+
+[2, 3, 5, 6]     [2, 2, 4, 4, 8]
+          |                   |
+          i                   j
+a1[i] < a2[j]
+move i pointer
+
+Until now, we have figured out how to count the number of pairs in one go if two sorted 
+arrays are given. But in our actual question, only a single unsorted array is given. 
+So, how to break it into two sorted halves so that we can apply the above observation
+
+We can think of the merge sort algorithm that works in a similar way we want. In the merge sort 
+algorithm, at every step, we divide the given array into two halves and then sort them, and while 
+doing that we can actually count the number of pairs.
+
+Basically, we will use the merge sort algorithm to use the observation in the correct way.
+
+arr[] = {5 3 2 4 1} 
+i < j  & a[i] > a[j]
+
+Our array is not sorted, can we some how map our array into some sorted form and get the left 
+section sorted and right section as sorted. I can think of merge sort algorithm. Merge sort keep on
+breaking and left is sorted and right is sorted  and then merge it back. At that point we can count.
+Keeping our above algo in mind  
+
+                            [5 3 2 4 1]
+                            _____/\______
+                           /             \
+                       [5 3 2]          [4 1]
+                       __/\__          
+                      /      \        
+                    [5 3]    [2]     
+                      /\
+                    [5] [3]
+
+I have 2 sorted arrays [5] and [3].         
+Again keeping 2 pointers
+[5]     [3]
+ |       |
+ i       j
+5 > 3, Hence 5 can make pair with 3. So I can say every one every one on the right of 5 can form pair wd 3.
+cnt += 1
+
+cnt = 1;
+
+This return sorted array[3, 5]
+                            [5 3 2 4 1]
+                            _____/\______
+                           /             \
+                       [5 3 2]          [4 1]
+                       __/\__          
+                      /      \        
+                =>  [3 5]    [2]     
+
+Two arrays = [3 5]  [2] 
+
+[3 5]  [2] 
+ |      |
+ i      j
+
+3 > 2, Hence 3 can make pair with 2. So I can say every one every one on the right of 3 can form pair wd 2. 
+
+cnt += 2
+
+cnt = 3;
+
+This returned our merged sorted array [2 3 5]
+                            [5 3 2 4 1]
+                            _____/\______
+                           /             \
+                       [2 3 5]          [4 1]
+                                       __/\__
+                                      /      \
+                                     [4]     [1]
+Two arrays = [4]  [1] 
+
+[4]  [1] 
+ |    |
+ i    j
+
+4 > 1, Hence 4 can make pair with 1. So I can say every one every one on the right of 4 can form pair wd 1.
+cnt += 1
+
+cnt = 4;
+This returned our merged sorted array [1 4]
+                            [5 3 2 4 1]
+                            _____/\______
+                           /             \
+                       [2 3 5]          [1 4]
+
+Two arrays = [2 3 5]  [1 4] 
+[2 3 5]  [1 4] 
+ |        |
+ i        j
+
+2 > 1, Hence 2 can make pair with 1. So I can say every one every one on the right of 2 can form pair wd 1.
+cnt += 3
+
+cnt = 7
+[1]
+move j pointer ahead
+we have a 4
+which can not form pair with 2.
+[1 2]
+move i pointer ahead 
+is 3 > 4, No move i pointer ahead
+[1 2 3]
+is 5 > 4 yes, Hence 5 can make pair with 4. So I can say every one every one on the right of 5 can form pair wd 4.
+cnt += 1
+
+cnt = 8
+[1 2 3 4 5] array is sorted. Performed whole merge sort and while performing merge sort we have calculated
+the count. 

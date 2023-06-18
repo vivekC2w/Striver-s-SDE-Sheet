@@ -1,0 +1,38 @@
+public int findDuplicate(int[] nums) {
+        //First approach is first we can sort array and then we can compare ith ele with (i+1)th ele which will take O(NlogN) time complexity O(1) space complexity
+
+        //We can Optimise it using hashing
+        //create freq array of same size all intialized with 0
+        //then we linearly traverse the array and we will update the index as per the values.
+        //then we will get the duplicate values
+
+        //Optmised approach is slow and fast pointer(tortoise method)
+        //we will take two pointers one is slow pointer and other is fast pointer slow pointer will always move one step where fast pointer will move 2 steps 
+        int slow = nums[0];
+        int fast = nums[0];
+        //index-0  1  2  3  4  5  6  7  8  9
+        //arr = 2, 5, 9, 6, 9  3, 8, 9, 7, 1
+        //intially we have 2 -> what we have at second index -> 9 // 2->9
+        //then we have 9 -> what we have at index 9 -> 1 //2->9->1
+        //then we have 1 -> what we have at index 1 -> 5 //2->9->1->5
+        //then we have 5 -> what we have at index 5 -> 3 //2->9->1->5->3
+        //then we have 3 -> what we have at index 3 -> 6 //2->9->1->5->6
+        //then we have 6 -> what we have at index 6 -> 8 //2->9->1->5->6->8
+        //then we have 8 -> what we have at index 8 -> 8 //2->9->1->5->6->8->7
+        //then we have 7 -> what we have at index 7 -> 9 //2->9->1->5->6->8->7->9(we have created the cycle) 9 >------> 9
+        //After creating the cycle we are going to use tortoise method
+        do {
+            slow = nums[slow];      //moving forward with one step
+            fast = nums[nums[fast]];    //moving forard with 2 steps
+        } while(slow != fast);  //until and unless they reaches at same pointe
+
+        fast = nums[0]; //then take fast pointer at initial pos
+        while(slow != fast) {
+            slow = nums[slow];  //then move fast pointer by 1 point
+            fast = nums[fast];  //and slow pointer by one point and the point where they collide is our duplicate number
+        }
+        return slow;
+
+        //Time complexity is O(N)
+        //Space complexity is O(1)
+    }

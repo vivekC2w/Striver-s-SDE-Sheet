@@ -1,0 +1,55 @@
+
+intervals = [[1,3],[2,6], [8,9], [9,11], [8,10], [2,4], [15,18], [16, 17]]
+Output:     [[1,6],[8,10],[15,18]]
+
+1---3
+  2--------6     8------9--11    15-------18
+  2---4          8-------10         16--17
+
+[1, 6], [8, 11], [15, 18]
+
+Brute Force Solution:
+Let's try to keep intervals together and clubing them into 1 interval that would be easier
+So my first approach will be to club the closer interval together
+[[1, 3], [2, 6], [2, 4]]
+
+So lets sort them 
+at first its sorted by first elements
+[1, 3]
+if at any moment first element is equal like for
+[2, 6], [2, 4] then it will sorted by second element
+Sorted Order:
+[1, 3], [2, 4], [2, 6], [8, 9], [8, 10], [9,11], [15,18], [16, 17]
+
+How will we know its overlapping?
+
+for [1, 3] and [2, 4]
+first ele of second pair i.e. 2 is less than or before the last ele of first pair i.e. 3
+then its overlapping 
+1-3
+ 2-4
+so [1, 3] will expand to [1, 4] because we want to retuen merge intervals
+so interval becomes [1, 4]
+
+next, for [1, 4] and [2, 6] 
+so similaraly it will also overlapping and becomes [1, 6]
+
+next, for [1, 6] and [8, 9] 
+It's not overlapping so I have got my first overlapping range 
+[[1, 6]]
+
+so we will consider [8, 9] as another interval and start doing same thing
+for [8, 9] and [8, 10]
+overlapping and becomes [8, 10]
+
+for [8, 10] and [9, 11]
+overlapping and becomes [8, 11]
+
+next, for [8, 11] and [15, 18] 
+It's not overlapping so I have got my first overlapping range 
+[[1, 6], [8, 11]]
+
+so we will consider [15, 18] as another interval and start doing same thing
+for [15, 18] and [16, 17]
+overlapping and becomes [15, 18]
+[[1, 6], [8, 11], [15, 18]]
