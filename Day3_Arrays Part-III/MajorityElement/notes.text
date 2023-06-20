@@ -1,0 +1,108 @@
+Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than ⌊n / 2⌋ times. 
+You may assume that the majority element always exists in the array.
+
+arr[] = [2 2 3 3 1 2 2]
+
+len of arr, N = 7
+2 appears = 4 > (N/2)
+
+===========================================================================
+
+Brute Force Approach
+arr[] = [2 2 3 3 1 2 2]
+
+len of arr, N = 7
+I'll pick up an element and i'll scan through entire array
+cnt++
+If cnt appears > N/2 for any of the element then that will be my answer
+
+for(i = 0; i < n; i++) {
+    cnt = 0;
+    for(j = 0; j < n; j++) {
+        if(arr[j] == arr[i])
+            cnt++;
+    }
+    if(cnt > N/2) return arr[i];
+}
+
+Time Complexity = O(N^2)
+Space Complexity: O(1) as we use no extra space.
+===========================================================================
+
+Better solution
+
+We will use a hashmap and store as (key, value) pairs. (Can also use frequency array 
+based on the size of nums) 
+Here the key will be the element of the array and the value will be the number 
+of times it occurs. 
+Traverse the array and update the value of the key. Simultaneously check if the 
+value is greater than the floor of N/2. 
+        If yes, return the key 
+        Else iterate forward.
+
+arr[] = [2 2 3 3 1 2 2]
+
+HashMap = [{2:4}, {3:2}, {1:1}]
+
+public int majorityElement(int[] nums) {
+    HashMap<Integer, Integer> map = new HashMap<>();
+    int n = nums.length;
+
+    for(int i = 0; i < n; i++) {
+        if(map.contains(nums[i])) {
+            map.put(nums[i], map.getOrDefault(nums[i]) + 1);
+        } else {
+            map.put(nums[i], 1);
+        }
+        if(map.get(nums[i]) > n/2) return nums[i];
+    }
+    return -1;
+}
+
+Time complexity = O(n) and Space complexity = O(n)
+
+=================================================================================
+
+Optimal solution
+Moore’s Voting Algorithm
+
+arr[] = {7 7 5 7 5 1 5 7 5 5 7 7 5 5 5 5}
+
+Algotithm is about 2 variables 
+start iterating 
+element = 7 7 5 7 5 1 
+count =   1 2 1 2 1 0 => reached zero till this pos
+              |
+         count reduces 
+         as ele changed
+
+take new majority element as count reaches zero means 7 will not be majority element in array
+element = 5 7
+count =   1 0
+this time array finishes here count becomes zero that means 5 will not be majority ele
+
+element = 5 5 7 7
+count =   1 2 1 0
+In this particular array 5 occurs twice and 7 also occurs twice so both will not be majority 
+element there by count = 0
+
+element = 5 5 5 5
+count =   1 2 3 4
+as count is greater than n/2 i.e. (4/2 = 2)
+element 5 is majority element
+
+If we check whole array 5 apperars 9 times so 5 will be the answer
+
+int res = 0, count = 0;
+for(int num : nums) {
+    if(count == 0) {
+        res = num;
+    }
+    count += (num==res) ? 1 : -1;
+}
+return res;
+
+Time complexity => O(n)
+Space Complexity => O(1)
