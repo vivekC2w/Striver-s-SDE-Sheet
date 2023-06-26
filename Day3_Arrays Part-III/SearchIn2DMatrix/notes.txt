@@ -1,0 +1,152 @@
+You are given an m x n integer matrix matrix with the following two properties:
+
+Each row is sorted in non-decreasing order.
+The first integer of each row is greater than the last integer of the previous row.
+Given an integer target, return true if target is in matrix or false otherwise.
+
+You must write a solution in O(log(m * n)) time complexity.
+matrix = 
+[
+ [1,3,5,7],
+ [10,11,16,20],
+ [23,30,34,60]
+]
+
+===================================================================================
+
+Brute Force Approach
+
+We can traverse through every element that is present in the matrix and return true if we 
+found any element in the matrix is equal to the target integer. If the traversal is finished
+we can directly return false as we did not find any element in the matrix to be equal to the 
+target integer.
+
+Time complexity: O(m*n)
+
+Space complexity: O(1)
+
+====================================================================================
+
+Efficient Way - Binary Search
+
+As it is clearly mentioned that the given matrix will be row-wise and column-wise sorted, 
+we can see that the elements in the matrix will be in a monotonically increasing order. 
+So we can apply binary search to search the matrix. 
+
+First Row 
+[1   3   5   7],    Target = 30
+Apply Binary search for first row  
+not Found target element
+
+Second Row 
+[10   11   16   20],    Target = 30
+Apply Binary search for second row  
+not Found target element
+
+Third Row 
+[23 30  34  50],    Target = 30
+Apply Binary search for third row 
+Found target element at index 2
+
+Time complexity: O(log(m*n))
+
+Space complexity: O(1)
+
+========================================================================================
+
+Better Approach
+
+matrix = 
+[
+ [1,3,5,7],
+ [10,11,16,20],
+ [23,30,34,60]
+]
+
+As we know that elemts are sorted rowwise and columnwise also so we can take help of that.
+we can point our pointer intially at the last elemnt of first row
+            |       target = 30
+1   3   5   7
+10  11  16  20
+23  30  34  60
+
+target > currentEle
+move pointer to downward means increase the row number
+
+1   3   5   7  
+10  11  16  20  <==
+23  30  34  60
+
+target > currentEle
+move pointer to downward means increase the row number
+
+1   3   5   7  
+10  11  16  20  
+23  30  34  60  <==
+
+target < currentEle
+move pointer to left side means decrease the column number
+1   3   5   7  
+10  11  16  20  
+23  30  34  60
+        |
+
+target < currentEle
+move pointer to left side
+1   3   5   7  
+10  11  16  20  
+23  30  34  60
+    |
+
+Found the target element
+
+//code
+int i = 0, j = m- 1;
+while (i < n & j >= 0) {
+    if(mat[i][j] == x) {
+        cout << "n Found at " << i << ", " << j;
+        return 1;
+    }
+    if(mat[i][j] > x)   
+        j--;
+    else
+        i++;
+}
+
+====================================================================================
+
+Opimal solution
+index   0   1   2   3
+  0     1   3   5   7  
+  1     10  11  16  20  
+  2     23  30  34  60
+
+If we store the elements in array
+[1 3 5 7 10 11 16 20 23 30 34 60]
+array is already in sorted order and I can easily do binary search to find my target element
+But I don't want to use extra space 
+for that let's manually write indexes in matrix only
+index   0      1      2      3
+  0     1(0)   3(1)   5(2)   7(3)  
+  1     10(4)  11(5)  16(6)  20(7)  
+  2     23(8)  30(9)  34(10) 60(11)
+
+0 to 11 
+o to (n*m-1)
+
+low to high
+we will use binary seach only using index values
+
+0       mid         11
+low      5          high
+
+we will check where the target value lies to the left of mid or right of mid
+for that we will take 
+row = mid / Total column numbers (4 columns in this given matrix)
+col = mid % Total column numbers (4 columns in this given matrix)
+if(target == mat[row][col])
+    return true;
+if(target > mat[row][col])
+    low = mid;
+if(target < mat[row][col])
+    high = mid;
