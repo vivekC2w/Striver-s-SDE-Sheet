@@ -1,0 +1,26 @@
+1st Approach Brute Force Approach
+
+arr = [2, 6, 5, 8, 11]    target = 14
+first we will keep i pointer over 2 and then we will check right part of array 
+i.e. [6, 5, 8, 11] if 14 - current element i.e.(i = 2) = 14 - 2 = 12. Is 12 present in 
+right part of array no then increment i.
+
+i = 6 and right part of array = [5, 8, 11]. We will check target - i = 14 - 6 = 8 is 
+present in right array. Then we will return index of 6 and 8 i.e. 1 and 3
+
+Time complexity will be O(n^2) because for every i we are checking on right half of array
+Space compleixity will be O(1)
+
+In optimised approach we are going to use HashTable
+Initially we will take empty hashTable 
+Iterate over array i = 2, target - i = 14 - 2 = 12 is exists in the hashtable or not. 
+Not present then we will put index and element in HashTable (2, 0)
+i = 6, target - i = 14 - 6 = 8 is not present in HashTable.  so Put (6, 1). 
+i = 5, target - i = 14 - 5 = 9 is not present in HashTable.  so Put (5, 2).
+i = 8, target - i = 14 - 8 = 6 is present in HashTable.  so we will return current index 
+and index of present element.
+
+Hash Table will take O(1) for  searching and insertion in an average case.
+So we are doing linear iteration so the time complexity will be O(N)
+Space complecxity also O(N) as we are storing values in HashTable.
+
