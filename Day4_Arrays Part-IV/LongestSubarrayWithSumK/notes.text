@@ -1,0 +1,28 @@
+Longest SubArray with sum K {positive}
+
+arr[] = [1, 2, 3, 1, 1, 1, 1, 4, 2, 3], k = 2
+
+Subarray has to be contigous like {1, 2} 
+
+{1, 2} consecutive subarray having sum equal to k i.e. 3, here length = 2
+{1, 1, 1} consecutive subarray having sum equal to k i.e. 3, here length = 3
+you can not have length longer than k(3)
+
+First solution => Brute Force approach
+
+1. Generate all the subarrays and find every sum 
+who ever is longest thats our answer
+
+To Generate our subarrays we will take 2 pointers i and j
+first i and j pointer points to first ele in array
+move j by 1 till end of array
+
+for(int i = 0; i < n; i++) {
+    for(int j = i; j < n; j++) {
+        //run a loop to calculate summation of array
+        sum = 0;
+        for(int k = i; k <= j; k++) {
+            sum += a[k];
+        }
+    }
+}

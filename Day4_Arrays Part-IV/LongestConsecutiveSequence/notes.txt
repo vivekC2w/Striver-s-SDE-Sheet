@@ -1,0 +1,53 @@
+Solution1 => Brute Force Approach
+
+Approach: 
+We can simply sort the array and run a for loop to find the longest consecutive sequence.
+
+Time Complexity: We are first sorting the array which will take O(N * log(N)) time and 
+then we are running a for loop which will take O(N) time. Hence, the overall time complexity 
+will be O(N * log(N)).
+
+Space Complexity: The space complexity for the above approach is O(1) because we are not 
+using any auxiliary space
+
+=========================================================================================
+
+Optimal SOlution:
+
+arr[] = [102, 4, 100, 1, 101, 3, 2, 1, 1]
+
+step 1 -> Put everything in set data strucuture
+set = {102, 4, 100, 1, 101, 3, 2} as set only stores only unique elements
+
+step 2 -> Start iterating element by element in set data structure
+for 102 we will check do we have 101 in array?
+Yes we have
+so its not the starting point
+
+for 4 we will check do we have 3 in array?
+Yes we have
+so its not the starting point
+
+for 100 we will check do we have 99 in array?
+No 99 we dont't have
+so let consider it as the starting point
+do we have 101? => yes  to check weather ele is present on HashSet is O(1) operation
+do we have 102? => yes
+do we have 103? => No
+max consectutive no's as of now = 3
+
+for 1 we will check do we have 0 in array?
+No 0 we dont't have
+so let consider it as the starting point
+do we have 2? => yes  to check weather ele is present on HashSet is O(1) operation
+do we have 3? => yes
+do we have 4? => Yes
+do we have 5? => No
+max consectutive no's as of now = 4
+
+similarly we will check for remaining elements
+Time Complexity: The time complexity of the above approach is O(N) because we traverse 
+each consecutive subsequence only once. (assuming HashSet takes O(1) to search)
+
+Space Complexity: The space complexity of the above approach is O(N) because we are 
+maintaining a HashSet.

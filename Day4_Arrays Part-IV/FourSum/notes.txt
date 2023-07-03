@@ -72,3 +72,15 @@ To get the quadruplets in sorted order, we will sort the entire array in the fir
 and to get the unique quads, we will simply skip the duplicate numbers while moving the 
 pointers.
 
+Now, we can also remove the HashSet as we have two moving pointers i.e. k and l that will 
+find the appropriate value of nums[k] and nums[l]. So, we do not need the HashSet anymore.
+
+
+Time Complexity: O(N3), where N = size of the array.
+Reason: Each of the pointers i and j, is running for approximately N times. And both the 
+pointers k and l combined can run for approximately N times including the operation of 
+skipping duplicates. So the total time complexity will be O(N3). 
+
+Space Complexity: O(no. of quadruplets), This space is only used to store the answer. 
+We are not using any extra space to solve this problem. So, from that perspective, 
+space complexity can be written as O(1).
