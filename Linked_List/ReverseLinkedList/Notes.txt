@@ -1,0 +1,74 @@
+Input: 
+ head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+
+1->2->3->4->5->NULL
+
+NULL<-5<-4<-3<-2<-1 (Here in output arrows are pointing in opp direction and first ele is pointing to NULL)
+
+we have head of the linked List 
+HEAD 
+1 -> 2 -> 3 -> 4 -> 5 -> NULL
+
+Intially create a Dummy Node that is assigned to NULL
+As in output Head Node is pointing to NULL
+
+we will create next Node and point to immediate Next of head Node
+First Iteration:
+HEAD 
+1 -> 2 -> 3 -> 4 -> 5 -> NULL
+    Next
+break the 1 -> 2 and point HEAD -> Dummy(NULL) which is our 1st objective to point 1st node to NULL
+Then take Dummy node and point to the Head Node 
+Dummy -> Head
+Head -> Next 
+-------------------------------------------
+Second Iteration:
+    Dummy     
+NULL<-1 - 2 -> 3 -> 4 -> 5 -> NULL  
+        HEAD
+        Next
+
+Point next-> Head of Next
+    Dummy     Next
+NULL<-1   2 -> 3 -> 4 -> 5 -> NULL  
+        HEAD
+
+Point 2(HEAD) Next -> 1 (Dummy)
+
+     Dummy     Next
+NULL <-1 <- 2 -> 3 -> 4 -> 5 -> NULL  
+          HEAD
+--------------------------------------------------------
+Third Iteration:
+Take Dummy Node reset at HEAD
+Take HEAD Node and point to Next
+
+               HEAD
+               Next
+NULL <-1 <- 2 -> 3 -> 4 -> 5 -> NULL  
+          Dummy
+
+Head next pointing to our dummy Node               
+               HEAD  Next
+NULL <-1 <- 2 <- 3 -> 4 -> 5 -> NULL  
+          Dummy
+
+--------------------------------------------------------
+Forth Iteration:
+Take Dummy Node reset at HEAD
+Take HEAD Node and point to Next
+               Dummy  
+NULL <-1 <- 2 <- 3 -> 4 -> 5 -> NULL 
+                    Next
+                    HEAD
+Point Next to Head of next
+               Dummy     Next
+NULL <-1 <- 2 <- 3 -> 4 -> 5 -> NULL                    
+                    HEAD
+Head next pointing to our dummy Node 
+               Dummy     Next
+NULL <-1 <- 2 <- 3 <- 4 -> 5 -> NULL                    
+                    HEAD
+
+Similaraly we will do until Head != NULL

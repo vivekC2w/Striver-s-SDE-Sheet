@@ -17,6 +17,7 @@ To Generate our subarrays we will take 2 pointers i and j
 first i and j pointer points to first ele in array
 move j by 1 till end of array
 
+longest_len = 0
 for(int i = 0; i < n; i++) {
     for(int j = i; j < n; j++) {
         //run a loop to calculate summation of array
@@ -24,5 +25,73 @@ for(int i = 0; i < n; i++) {
         for(int k = i; k <= j; k++) {
             sum += a[k];
         }
+        if(sum == k) longest_len = max(prev_len, j - i + 1);
     }
 }
+print(longest_len)
+
+Time complexity is some where near to n^3.
+Space Complexity = O(1)
+
+We can optimise the brute force appraoch further
+
+longest_len = 0
+for(int i = 0; i < n; i++) {
+    sum = 0;
+    for(int j = i; j < n; j++) {
+        //We can calculate sum no need of thrid for loop
+        
+        sum += a[j];
+        if(sum == k) longest_len = max(prev_len, j - i + 1);
+    }
+}
+print(longest_len)
+
+Time complexity is some where near to n^2 at the best case.
+Space Complexity = O(1)
+
+==============================================================================
+
+Better SOlution Using Hashing 
+
+Intuition: 
+Now let’s say we know that the sum of subarray(i, j) = S, and we also know that the sum of 
+subarray(i, x) = S where i < x < j. We can conclude that the sum of subarray(x+1, j) = 0.
+
+Let us understand the above statement clearly,
+
+So in this problem, we’ll store the prefix sum of every element, and if we observe that 2 
+elements have the same prefix sum, we can conclude that the 2nd part of this subarray sums 
+to zero
+
+Dry run
+Input : N = 5, array[] = {1, 2, -2, 4, -4}
+
+Output : 5
+
+1.  Initially sum = 0, max = 0
+2.  HashMap<Integer, Integer> h = [ ];
+
+3.  i=0 -> sum=1, sum!=0 so check in the hashmap if we’ve seen a subarray with this sum before,
+ in our case hashmap does not contain sum (1), so we add (sum, i) to the hashmap.
+h = [[1,0]]
+
+4.  i=1 -> sum=3, sum!=0 so check in the hashmap if we’ve seen a subarray with this sum 
+before, in our case hashmap does not contain sum (3), so we add (sum, i) to the hashmap.
+h=[[1,0], [3,1]] 
+
+5.  i=2 -> sum=1, sum!=0 so check in hashmap if it contains sum, in our case hashmap 
+contains sum (1). Here we can observe that our current sum is seen before which concludes 
+that it’s a zero subarray. So we now update our max as maximum(max, 2-0) => max = 2
+h=[[1,0], [3,1]]
+
+4.  i=3 -> sum=5, sum!=0 so check in hashmap if it contains sum, in our case hashmap does 
+not contain sum (5), so we add (sum, i) to hashmap.
+h=[[1,0], [3,1], [5,3]] 
+
+5.  i=4 -> sum=1, sum!=0 so check in hashmap if it contains sum, in our case hashmap 
+contains sum (1). Here we can again observe our above-discussed case, So we now update 
+our max as maximum(max, 4-0) => max = maximum(2, 4) = 4
+h=[[1,0], [3,1], [5,3]] 
+
+Now that we have traversed our whole array, our answer is max = 4, Subarray = {2, -2, 4, -4}
