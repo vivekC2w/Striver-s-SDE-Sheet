@@ -1,0 +1,239 @@
+Problem Statement: Given two singly linked lists that are sorted in increasing order of 
+node values, merge two sorted linked lists and return them as a sorted list. The list 
+should be made by splicing together the nodes of the first two lists.
+
+Input Format :
+l1 = {3,7,10}, l2 = {1,2,5,8,10}
+
+Output :
+{1,2,3,5,7,8,10,10}
+
+=====================================================================
+
+Solution 1: Using an externally linked list to store answers.
+
+list1 = [5, 7, 9];
+list2 = [3, 4, 8, 10];
+
+intially point head1 -> 5
+intially point head2 -> 3
+
+[5, 7, 9]       [3, 4, 8, 10]
+ |               |
+ head1          head2
+We will create dummy node which is initialize to 0 or NULL.
+
+we will compare head1 and head2, which one is smaller. In above lists 
+3 is smaller we will create new link list and insert value 3 inside it.
+Point next of dummy node to 3 and move duplicate dummy node to 3.
+
+dummy -> 3 
+Node     |
+      duplicate
+      dummy Node
+
+Move our head2 to 4
+[5, 7, 9]       [3, 4, 8, 10]
+ |                  |
+ head1            head2
+ --------------------------------------------
+we will compare head1 and head2, which one is smaller. In above lists 
+4 is smaller we will create new node and insert value 4 inside it.
+duplicate dummy node point to 4.
+
+dummy -> 3 ->  4
+Node           |
+            duplicate
+            dummy Node
+
+Move our head2 to 8
+[5, 7, 9]       [3, 4, 8, 10]
+ |                     |
+ head1               head2
+ ---------------------------------------------
+we will compare head1 and head2, which one is smaller. In above lists 
+5 is smaller we will create new node and insert value 5 inside it.
+duplicate dummy node point to 5.
+
+dummy -> 3 -> 4 -> 5
+Node               |
+                duplicate
+                dummy Node
+
+Move our head1 to 7
+[5, 7, 9]       [3, 4, 8, 10]
+    |                  |
+  head1               head2
+ ---------------------------------------------
+we will compare head1 and head2, which one is smaller. In above lists 
+7 is smaller we will create new node and insert value 7 inside it.
+duplicate dummy node point to 7.
+
+dummy -> 3 -> 4 -> 5 -> 7
+Node                    |
+                    duplicate
+                    dummy Node
+
+Move our head1 to 9
+[5, 7, 9]       [3, 4, 8, 10]
+       |               |
+     head1           head2
+ ---------------------------------------------
+we will compare head1 and head2, which one is smaller. In above lists 
+8 is smaller we will create new node and insert value 8 inside it.
+duplicate dummy node point to 8.
+
+dummy -> 3 -> 4 -> 5 -> 7 -> 8
+Node                         |
+                         duplicate
+                         dummy Node
+
+Move our head2 to 10
+[5, 7, 9]       [3, 4, 8, 10]
+       |                   |
+     head1                head2
+ ---------------------------------------------
+we will compare head1 and head2, which one is smaller. In above lists 
+9 is smaller we will create new node and insert value 9 inside it.
+duplicate dummy node point to 9.
+
+dummy -> 3 -> 4 -> 5 -> 7 -> 8 -> 9
+Node                              |
+                                duplicate
+                                dummy Node
+
+Move our head2 to null
+[5, 7, 9]       [3, 4, 8, 10]
+       |                      |
+     head1                  head2
+movement it points to null we will stop and after this remaining portion is 
+copy pasted
+ ---------------------------------------------
+dummy -> 3 -> 4 -> 5 -> 7 -> 8 -> 9 -> 10 -> NULL
+Node                                   |
+                                   duplicate
+                                   dummy Node
+
+Move our head2 to null
+[5, 7, 9]       [3, 4, 8, 10]
+         |                    |
+       head1                head2
+both head1 and head2 reaches to null we will stop
+Point next of 10 to NULL
+We can say our head node id dummy's next Node
+
+dummy -> 3 -> 4 -> 5 -> 7 -> 8 -> 9 -> 10 -> NULL
+Node     |
+        Head
+return dummy's Next 
+------------------------------------------------------------------
+Time Complexity
+We are still traversing both lists entirely in the 
+worst-case scenario. So, it remains the same as O(N+M) 
+where N is the number of nodes in list 1 and M is the 
+number of nodes in list 2.
+
+Space Complexity 
+O(N + M) Using external space i.e. Linked List
+
+===================================================================
+Optimal SOlution: In In-space i.e. O(1) Space complexity
+
+First step -> Take 2 varaibles let call l1 and l2, points to first elements of list1 and list2
+Which ever is smallest element point mark resultant to it.
+
+[5, 7, 9]       [3, 4, 8, 10]
+ |               |
+l2               l1
+                (res)
+
+create a node temp assigned it to null
+temp = null
+assigned temp = l1
+temp -> 3
+keep on moving l1 node until it is smaller than l2(5)
+
+-------------------------------------------------------
+Second step -> move l1 to 4 
+                   l1
+                    |
+[5, 7, 9]       [3, 4, 8, 10]
+ |               |
+l2               temp
+                
+l1 < l2 = 4 < 5
+temp re-assigned it to l1
+temp -> 4
+keep on moving l1 node until it is smaller than l2(5)
+-------------------------------------------------
+
+Third step -> move l1 to 8
+                       l1
+                       |
+[5, 7, 9]       [3, 4, 8, 10]
+ |                  |
+l2                 temp
+                
+
+l1 !< l2 = 8 !< 5
+Assign temp next to l2
+temp->next = 5
+Now smaller node is l2 not l1 
+Swap l1 and l2
+ temp-> next           l2
+ |                     |
+[5, 7, 9]       [3, 4, 8, 10]
+ |                  
+l1       
+
+Again asiign temp to null
+keep on moving l1 node until it is smaller than l2(8)
+-------------------------------------------------
+                       l2
+                       |
+[5, 7, 9]       [3, 4, 8, 10]
+    |                  
+    l1 
+Again l1 < l2 = 7 < 8
+temp -> 7 (new smaller node )
+move l1 
+------------------------------------------
+                       l2
+                       |
+[5, 7, 9]       [3, 4, 8, 10]
+       |               |  
+      l1            temp->next
+l1 !< l2 = 9 !< 8
+Assign temp next to l2
+temp->next = 8
+Now smaller node is l2 not l1 
+Swap l1 and l2
+                       l1
+                       |
+[5, 7, 9]       [3, 4, 8, 10]
+       |               |  
+      l2            temp
+-------------------------------
+move l1 
+                          l1
+                          |
+[5, 7, 9]       [3, 4, 8, 10]
+       |               |  
+      l2            temp
+l1 !< l2 = 10 !< 9
+swap l1 and l2
+                          l2
+                          |
+[5, 7, 9]       [3, 4, 8, 10]
+       |               |  
+      l1            temp
+temp-> next = l1 = 9
+similarly we will move to until we get sorted merge list 
+--------------------------------------------------------------
+Time Complexity :
+
+We are still traversing both lists entirely in the worst-case scenario. So, it remains the same as O(N+M) where N is the number of nodes in list 1 and M is the number of nodes in list 2.
+
+Space Complexity :
+
+We are using the same lists just changing links to create our desired list. So no extra space is used. Hence, its space complexity is O(1). 

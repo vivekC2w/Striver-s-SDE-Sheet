@@ -72,3 +72,8 @@ NULL <-1 <- 2 <- 3 <- 4 -> 5 -> NULL
                     HEAD
 
 Similaraly we will do until Head != NULL
+
+So atlast our current node will be dummy node which will points to HEAD and we will return it.
+
+Time Complexity -> O(N)
+Space Complexity -> O(1)
