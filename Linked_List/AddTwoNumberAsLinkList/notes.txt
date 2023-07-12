@@ -1,0 +1,187 @@
+
+Add Two Numbers
+
+Problem statement - You are given two non-empty linked lists representing two non-negative integers. 
+The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two 
+numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Suppose we have 2 linkedlists
+
+2 -> 4 -> 3 -> NULL
+
+5 -> 6 -> 7 -> 9 -> NULL
+
+original numbers = 342 + 9765 = 10107
+
+Resultant LinkedList -
+7 -> 0 -> 1 -> 0 -> 1 -> NULL
+
+---------------------------------------------------------------
+
+This has only optimal approach
+
+Edge test-cases - 
+1. If first LinkedList is smaller than the second LinkedList
+2. What If second LinkedList is smaller than the first LinkedList
+3. What If both of them are equal length.
+
+Discuss this edge cases with interviwer 
+
+Create a dummy Node assign it to NULL
+Create a copy of dummy node lets call temp and assign it to dummy node
+
+Dummy Node will give the head of Linked_List always so we gonna only move 
+the temp Node. 
+
+At first we will carry 2 varaibles sum and carry
+sum = 0, carry = 0
+---------------------------------------------------------------------
+First Iteration
+
+2 -> 4 -> 3 -> NULL
+|
+L1
+
+5 -> 6 -> 7 -> 9 -> NULL
+|
+L2
+
+check if node at L1 is not NULL -> Yes Not NULL
+take the value of L1 add to sum 
+sum = 2
+check if node at L2 is not NULL -> Yes Not NULL
+take the value of L2 add to sum 
+sum = 2 + 5 = 7
+
+create one more new Node assign 7 to it 
+
+point temp's pointer to 7 now 
+
+0  ->   7
+Dummy  temp
+Node   Node
+
+---------------------------------------------------------------------
+Second Iteration
+sum = 0, carry = 0
+2 -> 4 -> 3 -> NULL
+     |
+     L1
+
+5 -> 6 -> 7 -> 9 -> NULL
+     |
+     L2
+
+check if node at L1 is not NULL -> Yes Not NULL
+take the value of L1 add to sum 
+sum = 4 
+check if node at L2 is not NULL -> Yes Not NULL
+take the value of L2 add to sum 
+sum = 4 + 6 = 10
+
+create one more new Node assign (sum % 10 = 10 % 10 = 0) to it 
+assign carry = sum / 10 = 10 / 10 = 1
+carry = 1
+point temp's pointer to 0 now 
+
+0  ->   7   ->  0
+Dummy          temp
+Node           Node
+
+---------------------------------------------------------------------
+Third Iteration
+sum = 0, carry = 1
+2 -> 4 -> 3 -> NULL
+          |
+          L1
+
+5 -> 6 -> 7 -> 9 -> NULL
+          |
+          L2
+
+check if node at L1 is not NULL -> Yes Not NULL
+take the value of L1 add to sum 
+sum = 3 
+check if node at L2 is not NULL -> Yes Not NULL
+take the value of L2 add to sum 
+sum = 3 + 7 = 10 
+Add carry to sum = sum + carry = 10 + 1 = 11
+sum = 11 
+
+create one more new Node assign (sum % 10 = 11 % 10 = 1) to it 
+assign carry = sum / 10 = 11 / 10 = 1
+carry = 1
+point temp's pointer to 1 now 
+
+0  ->   7   ->  0   ->  1
+Dummy                  temp
+Node                   Node
+---------------------------------------------------------------------
+Fourth Iteration
+sum = 0, carry = 1
+2 -> 4 -> 3 -> NULL
+                |
+                L1
+
+5 -> 6 -> 7 -> 9 -> NULL
+               |
+              L2
+
+check if node at L1 is not NULL -> Yes It is NULL
+Don not add L1 to sum 
+check if node at L2 is not NULL -> No Not NULL
+take the value of L2 add to sum 
+sum = 0 + 9 = 9 
+Add carry to sum = sum + carry = 9 + 1 = 10
+sum = 10
+
+create one more new Node assign (sum % 10 = 10 % 10 = 0) to it 
+assign carry = sum / 10 = 10 / 10 = 1
+carry = 1
+point temp's pointer to 0 now 
+
+0  ->   7   ->  0   ->  1   ->  0
+Dummy                          temp
+Node                           Node
+
+-------------------------------------------------------------
+Fifth Iteration
+sum = 0, carry = 1
+2 -> 4 -> 3 -> NULL
+                |
+                L1
+
+5 -> 6 -> 7 -> 9 -> NULL
+                     |
+                     L2
+Since L1 is already reached to NULL no need to move L1
+We are going to keep moving either of L1 and L2 is null or if the value of carry 
+is non-zero till then we are going to move 
+
+Move l2 to NULL 
+As L1 and L2 both are NULL no need to add anything in sum 
+As carry is 1 add in sum 
+sum = 1
+
+create one more new Node assign (sum % 10 = 1 % 10 = 0) to it 
+assign carry = 1 / 10 = 0
+carry = 0
+point temp's pointer to 1 now 
+
+0  ->   7   ->  0   ->  1   ->  0   ->   1
+Dummy                                   temp
+Node                                    Node
+
+SO the movement L1 and L2 becomes NULL and carry becomes zero we will stop 
+and will return head of Linked List i.e. dummy.next
+
+7   ->  0   ->  1   ->  0   ->   1
+|
+head
+(Dummy Next)
+
+O(max(m,n)). Assume that m and n represent the length of l1 and l2 respectively, the algorithm above iterates at most max(m,n) times.
+
+Space Complexity: O(max(m,n)). The length of the new list is at most max(m,n)+1. 

@@ -1,0 +1,38 @@
+Delete given node in a Linked List : O(1) approach
+
+##Problem Statement: 
+Write a function to delete a node in a singly-linked list. You will not be given access 
+to the head of the list instead, you will be given access to the node to be deleted directly. It is guaranteed 
+that the node to be deleted is not a tail node in the list.
+
+Example 1:
+Input:
+ Linked list: [1,4,2,3]
+       Node = 2
+Output:
+Linked list: [1,4,3]
+Explanation: Access is given to node 2. After deleting nodes, the linked list will be modified to [1,4,3].
+
+-----------------------------------------------------------------------------------------------------------
+
+1 -> 4 -> 2 -> 3 -> NULL
+ suppose we have to delete Node [2]
+You just given ref of List that needs to be deleted which is Node[2]
+with that we can only access to Node[3] i.e. Next Node 
+
+How can we delete it?
+Simply Copy Node[3] to the position of Node[2] and delete ref (2 -> 3) and point to next->next-> 3
+
+1->4->3->NULL
+
+node-> val = node -> next -> val;
+node -> next = node -> next -> next;
+
+If Node to be deleted id tail node then you sshould check
+if Node -> next = NULL
+simply assign it to NULL 
+Node = NULL;
+
+Time complexity and space complexity is O(1)
+
+
