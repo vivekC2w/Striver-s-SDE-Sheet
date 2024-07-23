@@ -1,0 +1,35 @@
+Recursion =>
+ When a function calls itself until a specified condition is met.
+
+void f() {
+    printf(1);
+    f();        //recursively call same function (goes inside infinite condition)
+}
+//this recursion with out base(stop) condition will cause stack overflow
+main() {
+    f();
+}
+
+-----------------------------------------------------------------------------------
+
+cnt = 0;
+
+f() {
+    //base condition
+    if(cnt == 5) 
+        return;   //function gets terminated at this point
+
+    print(cnt);  //0 1 2 3 4 
+    cnt++;       //1 2 3 4 5
+    f();
+}
+
+main() {
+    f();
+}
+
+//Output --> 0 1 2 3 4 
+
+-----------------------------------------------------------------------------------
+
+ 
