@@ -30,14 +30,12 @@ class LinkedList<T> {
             this.head = this.head.next;
             return;
         }
-        let temp: ListNode<T> | null = this.head;
-        let prev: ListNode<T> | null = null;
-        for (let i = 1; temp !== null && i < k; i++) {
-            prev = temp;
+        let temp = this.head;
+        for (let i = 1; temp !== null && i < k - 1; i++) {
             temp = temp.next;
         }
-        if (prev === null || temp === null) return;
-        prev.next = temp.next;
+        if (temp === null || temp.next === null) return;
+        temp.next = temp.next.next;
     }
 }
 
